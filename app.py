@@ -52,6 +52,11 @@ def profile_page(tutor_id):
         if tutor.get('id') == tutor_id:
             tutor_by_id = tutor
             break
-    return render_template('profile.html', tutor = tutor_by_id)
+    return render_template('profile.html', tutor=tutor_by_id)
+
+
+@app.route('/request')
+def request():
+    return render_template('request.html')
 
 app.run()
