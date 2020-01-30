@@ -1,7 +1,6 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from datetime import datetime
 import json
-import requests
 import random
 
 
@@ -21,14 +20,10 @@ tutors = data['tutors']
 @app.route('/')
 def main_page():
     free_tutors = []
-    print(days[datetime.now().weekday()])
-    print(datetime.now().time().hour, datetime.now().minute)
     hour = datetime.now().time().hour
     for tutor in tutors:
-        print(tutor['free'])
         if tutor['free'].get(days[datetime.now().weekday()]).get(str(hour - hour % 2)+':00'):
             free_tutors.append(tutor)
-    print(random.sample(free_tutors, 3))
     return render_template('index.html', tutors = random.sample(free_tutors, 3))
 
 
@@ -55,8 +50,16 @@ def profile_page(tutor_id):
     return render_template('profile.html', tutor=tutor_by_id)
 
 
-@app.route('/request')
-def request():
+@app.route('/request/')
+def request_page():
     return render_template('request.html')
+
+
+@app.route('/request_done/', methods=['GET'])
+def request_done_page():
+    time = request.args.get('time')
+    goal = request.args.get('goal')
+    print('done', time, goal)
+    return render_template('request_done.html', time=time, goal=goals.get(goal))
 
 app.run()
