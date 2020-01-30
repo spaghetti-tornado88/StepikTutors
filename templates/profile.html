@@ -16,67 +16,16 @@
     <div class="card-body m-2 m-md-4">
       <h2 class="h5 mb-4">Записаться на пробный урок</h2>
       <table class="table">
+        {% for day in tutor.free.keys() %}
         <tr>
-          <th><span class="btn font-weight-bold py-0">#</span></th>
-
-          {% for day in tutor.free.keys() %}
-
-          <th>{{ day|capitalize }}</th>
-
+          <th> {{ day|capitalize }}</th>
+          {% for time in tutor.free.get(day) %}
+          <td><a href="/request/{{ day }}&{{ time }}" {% if tutor.free.get(day).get(time) %}class="btn btn-block btn-success"{% else %}class="btn disabled btn-block btn-dark"{% endif %}>{{ time }}</a></td>
           {% endfor %}
-
         </tr>
-        <tr>
-          <td><span class="btn">8:00</span></td>
-          <td><a href="booking.html" class="btn btn-sm btn-secondary">8:00</a></td>
-          <td><a href="#" class="btn btn-sm btn-secondary">8:00</a></td>
-          <td><a href="#" class="btn btn-sm btn-secondary">8:00</a></td>
-          <td><a href="#" class="btn btn-sm btn-secondary">8:00</a></td>
-          <td><a href="#" class="btn btn-sm btn-secondary">8:00</a></td>
-          <td>-</td>
-          <td>-</td>
-        </tr>
-        <tr>
-          <td><span class="btn">10:00</span></td>
-          <td><a href="#" class="btn btn-sm btn-secondary">10:00</a></td>
-          <td><a href="#" class="btn btn-sm btn-success">10:00</a></td>
-          <td><a href="#" class="btn btn-sm btn-success">10:00</a></td>
-          <td><a href="#" class="btn btn-sm btn-success">10:00</a></td>
-          <td><a href="#" class="btn btn-sm btn-secondary">10:00</a></td>
-          <td>-</td>
-          <td>-</td>
-        </tr>
-        <tr>
-          <td><span class="btn">12:00</span></td>
-          <td><a href="#" class="btn btn-sm btn-secondary">12:00</a></td>
-          <td><a href="#" class="btn btn-sm btn-success">12:00</a></td>
-          <td><a href="#" class="btn btn-sm btn-success">12:00</a></td>
-          <td><a href="#" class="btn btn-sm btn-success">12:00</a></td>
-          <td><a href="#" class="btn btn-sm btn-secondary">12:00</a></td>
-          <td>-</td>
-          <td>-</td>
-        </tr>
-        <tr>
-          <td><span class="btn">14:00</span></td>
-          <td><a href="#" class="btn btn-sm btn-secondary">14:00</a></td>
-          <td><a href="#" class="btn btn-sm btn-success">14:00</a></td>
-          <td><a href="#" class="btn btn-sm btn-success">14:00</a></td>
-          <td><a href="#" class="btn btn-sm btn-success">14:00</a></td>
-          <td><a href="#" class="btn btn-sm btn-secondary">14:00</a></td>
-          <td>-</td>
-          <td>-</td>
-        </tr>
-        <tr>
-          <td><span class="btn">16:00</span></td>
-          <td><a href="#" class="btn btn-sm btn-secondary">16:00</a></td>
-          <td><a href="#" class="btn btn-sm btn-success">16:00</a></td>
-          <td><a href="#" class="btn btn-sm btn-success">16:00</a></td>
-          <td><a href="#" class="btn btn-sm btn-success">16:00</a></td>
-          <td><a href="#" class="btn btn-sm btn-secondary">16:00</a></td>
-          <td>-</td>
-          <td>-</td>
-        </tr>
+        {% endfor %}
       </table>
+
     </div>
   </div>
 </main>
