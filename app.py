@@ -55,9 +55,9 @@ def booking_page(tutor_id):
         if tutor.get('id') == tutor_id:
             tutor_by_id = tutor
             break
-    day = request.args.get('d')
-    time = request.args.get('t')
-    print(day, time)
+    session['day'] = request.args.get('d')
+    session['time'] = request.args.get('t')
+
     return render_template('booking.html', tutor=tutor_by_id, day=day, time=time)
 
 
@@ -65,9 +65,8 @@ def booking_page(tutor_id):
 def booking_done_page():
     name = request.args.get('n')
     phone = request.args.get('p')
-    print(name, phone)
+    print(session.get['name'])
     return render_template('booking_done.html', name=name, phone=phone)
-
 
 
 @app.route('/request/')
@@ -75,12 +74,14 @@ def request_page():
     return render_template('request.html')
 
 
-@app.route('/request_done/', methods=['GET'])
+@app.route('/request_done/')
 def request_done_page():
-    time = request.args.get('time')
-    goal = request.args.get('goal')
-    print('done', time, goal)
-    return render_template('request_done.html', time=time, goal=goals.get(goal))
+    time = request.form.get('time')
+    goal = request.form.get('goal')
+    return render_template('request_done.html',
+                           name=request.args.get('name'),
+                           phone=request.args.get('phone'),
+                           time=time, goal=goals.get(goal))
 
 
 app.run()
