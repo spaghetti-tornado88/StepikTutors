@@ -8,7 +8,7 @@
         <div class="col-5"><img src="{{ tutor.picture }}" class="img-fluid" alt=""></div>
         <div class="col-7">
           <h1 class="h2">{{ tutor.name }}</h1>
-          <p><span class="badge badge-secondary mr-2">Для путешествий </span>Рейтинг: {{ tutor.rating }} Ставка: {{ tutor.price }} / час</p>
+          <p>{% for goal in tutor.goals %}<a href="/goal/{{ goal }}" class="badge badge-secondary mr-2">{{ goals.get(goal) }}</a>{% endfor %}Рейтинг: {{ tutor.rating }} Ставка: {{ tutor.price }} / час</p>
           <p>{{ tutor.about }}<br> <br>
         </div>
       </div>
