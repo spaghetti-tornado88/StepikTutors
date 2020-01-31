@@ -21,6 +21,8 @@ def main_page():
     days = {0: "mon", 1: "tue", 2: "wed", 3: "thu", 4: "fri", 5: "sat", 6: "sun"}
     free_tutors = []
     hour = datetime.now().time().hour
+    # Решил сделать интересней и реализовал вывод трех случайных преподавателей,
+    # которые действительно свободны сейчас
     for tutor in tutors:
         if tutor['free'].get(days[datetime.now().weekday()]).get(str(hour - hour % 2)+':00'):
             free_tutors.append(tutor)
@@ -34,6 +36,7 @@ def all_tutors():
 
 @app.route('/goal/<goal_tag>')
 def goal_page(goal_tag):
+    # TODO: place tutors by rating
     tutors_by_goal = []
     for tutor in tutors:
         if goal_tag in tutor['goals']:
@@ -56,7 +59,7 @@ def booking_page(tutor_id):
         if tutor.get('id') == tutor_id:
             tutor_by_id = tutor
             break
-    # Использую сессии, хотя до конца не уверен, что всё правильно делаю, п
+    # Использую сессии, хотя до конца не уверен, что всё правильно делаю,
     # поскольку не приступал еще к следующей главе
     session['day'] = request.args.get('d')
     session['time'] = request.args.get('t')
@@ -80,6 +83,7 @@ def request_page():
 
 @app.route('/request_done/')
 def request_done_page():
+    # TODO: add all data from request to request.json file and save it
     time = request.args.get('time')
     goal = request.args.get('goal')
     print(time, goal)
