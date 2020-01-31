@@ -20,7 +20,7 @@
         <tr>
           <th> {{ day|capitalize }}</th>
           {% for time in tutor.free.get(day) %}
-          <td><a href="/request/{{ day }}&{{ time }}" {% if tutor.free.get(day).get(time) %}class="btn btn-block btn-success"{% else %}class="btn disabled btn-block btn-dark"{% endif %}>{{ time }}</a></td>
+          <td><a href="/booking/{{ tutor.id }}?d={{ day }}&t={{ time }}" {% if tutor.free.get(day).get(time) %}class="btn btn-success btn-sm btn-block "{% else %}class="btn btn-dark btn-sm disabled btn-block "{% endif %}>{{ time }}</a></td>
           {% endfor %}
         </tr>
         {% endfor %}
