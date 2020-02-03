@@ -5,7 +5,6 @@ import random
 
 
 app = Flask(__name__)
-app.secret_key = 'I have no idea'
 
 with open('data.json', 'r', encoding='utf-8') as file:
     data = file.read()
@@ -14,6 +13,12 @@ data = json.loads(data)
 
 goals = data['goals']
 tutors = data['tutors']
+
+
+def findTutor(tutors_list, tutor_id):
+    for tutor in tutors_list:
+        if tutor.get('id') == tutor_id:
+            return tutor
 
 
 @app.route('/')
@@ -43,34 +48,22 @@ def goal_page(goal_tag):
 
 @app.route('/profile/<int:tutor_id>')
 def profile_page(tutor_id):
-    for tutor in tutors:
-        if tutor.get('id') == tutor_id:
-            tutor_by_id = tutor
-            break
-    return render_template('profile.html', tutor=tutor_by_id, goals=goals)
+    return render_template('profile.html', tutor=findTutor(tutors, tutor_id), goals=goals)
 
 
-@app.route('/booking/<int:tutor_id>')
-def booking_page(tutor_id):
-    for tutor in tutors:
-        if tutor.get('id') == tutor_id:
-            tutor_by_id = tutor
-            break
-    # Использую сессии, хотя до конца не уверен, что всё правильно делаю, п
-    # поскольку не приступал еще к следующей главе
-    session['day'] = request.args.get('d')
-    session['time'] = request.args.get('t')
-
-    return render_template('booking.html', tutor=tutor_by_id, day=session['day'],
-                           time=session['time'])
+@app.route('/booking/<int:tutor_id>/<day>/<time>')
+def booking_page(tutor_id, day, time):
+    return render_template('booking.html', tutor=findTutor(tutors, tutor_id),
+                           day=day, time=time)
 
 
-@app.route('/booking_done')
+@app.route('/booking_done', methods=['POST'])
 def booking_done_page():
-    name = request.args.get('n')
-    phone = request.args.get('p')
-    return render_template('booking_done.html', name=name, phone=phone,
-                           day=session['day'], time=session['time'])
+    with open('booking.json', 'a') as booking_file:
+        booking_file.write(json.dumps(request.form))
+        booking_file.write('\n')
+    return render_template('booking_done.html', tutor=findTutor(tutors, int(request.form.get('c_tutor'))),
+                           booking_form=request.form)
 
 
 @app.route('/request/')
@@ -78,15 +71,12 @@ def request_page():
     return render_template('request.html')
 
 
-@app.route('/request_done/')
+@app.route('/request_done/', methods=['POST'])
 def request_done_page():
-    time = request.args.get('time')
-    goal = request.args.get('goal')
-    print(time, goal)
-    return render_template('request_done.html',
-                           name=request.args.get('name'),
-                           phone=request.args.get('phone'),
-                           time=time, goal=goals.get(goal))
+    with open('request.json', 'a') as request_file:
+        request_file.write(json.dumps(request.form))
+        request_file.write('\n')
+    return render_template('request_done.html', request_form=request.form)
 
 
 app.run()
