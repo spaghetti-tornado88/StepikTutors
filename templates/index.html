@@ -30,7 +30,7 @@
                             <div class="col-9">
                                 <p class="float-right">Рейтинг: {{ tutor.rating }} Ставка: {{ tutor.price }} / час</p>
                                 <h2 class="h4">{{ tutor.name }}</h2>
-                                <p>{{ tutor.about }}</p>
+                                <p>{{ tutor.about|truncate(200) }}</p>
                                 <a href="/profile/{{ tutor.id }}" class="btn btn-outline-primary btn-sm mr-3 mb-2">Показать информацию и расписание</a>
                             </div>
                         </div>
