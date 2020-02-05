@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request
 from datetime import datetime
 import json
 import random
 
 
 app = Flask(__name__)
+
 
 with open('data.json', 'r', encoding='utf-8') as file:
     data = file.read()
@@ -15,10 +16,18 @@ goals = data['goals']
 tutors = data['tutors']
 
 
-def findTutor(tutors_list, tutor_id):
-    for tutor in tutors_list:
-        if tutor.get('id') == tutor_id:
-            return tutor
+def tutor_by_id(tutors_list, tutor_id):
+    first = 0
+    last = len(tutors_list)-1
+    while first <= last:
+        mid = (first + last) // 2
+        if tutors_list[mid].get('id') == tutor_id:
+            return tutors_list[mid]
+        else:
+            if tutor_id < tutors_list[mid].get('id'):
+                last = mid - 1
+            else:
+                first = mid + 1
 
 
 @app.route('/')
@@ -48,12 +57,12 @@ def goal_page(goal_tag):
 
 @app.route('/profile/<int:tutor_id>')
 def profile_page(tutor_id):
-    return render_template('profile.html', tutor=findTutor(tutors, tutor_id), goals=goals)
+    return render_template('profile.html', tutor=tutor_by_id(tutors, tutor_id), goals=goals)
 
 
 @app.route('/booking/<int:tutor_id>/<day>/<time>')
 def booking_page(tutor_id, day, time):
-    return render_template('booking.html', tutor=findTutor(tutors, tutor_id),
+    return render_template('booking.html', tutor=tutor_by_id(tutors, tutor_id),
                            day=day, time=time)
 
 
@@ -62,7 +71,7 @@ def booking_done_page():
     with open('booking.json', 'a') as booking_file:
         booking_file.write(json.dumps(request.form))
         booking_file.write('\n')
-    return render_template('booking_done.html', tutor=findTutor(tutors, int(request.form.get('c_tutor'))),
+    return render_template('booking_done.html', tutor=tutor_by_id(tutors, int(request.form.get('c_tutor'))),
                            booking_form=request.form)
 
 
