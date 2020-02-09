@@ -13,9 +13,9 @@
         <hr />
         <div class="card-body mx-5">
           <p><b>Тема:</b> Пробный урок</p>
-          <p><b>Дата:</b> {{ booking_form.c_day|capitalize }}, {{ booking_form.c_time }}</p>
-          <p><b>Имя:</b> {{ booking_form.c_name }}</p>
-          <p><b>Телефон:</b> {{ booking_form.c_phone }}</p>
+          <p><b>Дата:</b> {{ form.day|capitalize }}, {{ form.time }}</p>
+          <p><b>Имя:</b> {{ form.name }}</p>
+          <p><b>Телефон:</b> {{ form.phone }}</p>
         </div>
       </div>
     </div>

@@ -12,18 +12,22 @@
                   <p class="my-1">{{ day|capitalize }}, {{ time }}</p>
               </div>
               <hr/>
+              {{ form.csrf_token }}
               <div class="card-body mx-3">
                   <div class="row">
-                      <input class="form-control" type="hidden" name="c_day" value="{{ day }}">
-                      <input class="form-control" type="hidden" name="c_time" value="{{ time }}">
-                      <input class="form-control" type="hidden" name="c_tutor" value="{{ tutor.id }}">
+                      {{ form.day(class="form-control", type="hidden", value=day) }}
+                      {{ form.time(class="form-control", type="hidden", value=time) }}
+                      {{ form.tutor_id(class="form-control", type="hidden", value=tutor_id) }}
                   </div>
-                  <label class="mb-1 mt-2" for="clientName">Вас зовут</label>
-                  <input class="form-control" type="text" name="c_name" id="clientName">
-                  <label class="mb-1 mt-2" for="clientPhone">Ваш телефон</label>
-                  <input class="form-control" type="tel"  name="c_phone" id="clientPhone">
-                  <input type="submit" class="btn btn-primary btn-block mt-4" value="Записаться на пробный урок">
+                  {{ form.name.label(class="mb-1 mt-2") }}
+                  {{ form.name(class="form-control") }}
+                  {{ form.phone.label(class="mb-1 mt-2") }}
+                  {{ form.phone(class="form-control") }}
+                  {{ form.submit(class="btn btn-primary btn-block mt-4") }}
               </div>
+              {% if form.errors %}
+              {{ form.errors }}
+              {% endif %}
           </form>
       </div>
     </div>

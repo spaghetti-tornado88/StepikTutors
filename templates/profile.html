@@ -8,7 +8,7 @@
         <div class="col-5"><img src="{{ tutor.picture }}" class="img-fluid" alt=""></div>
         <div class="col-7">
           <h1 class="h2">{{ tutor.name }}</h1>
-          <p>{% for goal in tutor.goals %}<a href="/goal/{{ goal }}" class="badge badge-secondary mr-2">{{ goals.get(goal) }}</a>{% endfor %}Рейтинг: {{ tutor.rating }} Ставка: {{ tutor.price }} / час</p>
+         <p>{% for goal in tutor.goals.split() %}<a href="/goal/{{ goal }}" class="badge badge-secondary mr-2"> {{ goal|capitalize }} </a>{% endfor %}Рейтинг: {{ tutor.rating }} Ставка: {{ tutor.price }} / час</p>
           <p>{{ tutor.about }}<br> <br>
         </div>
       </div>
@@ -16,11 +16,11 @@
     <div class="card-body m-2 m-md-4">
       <h2 class="h5 mb-4">Записаться на пробный урок</h2>
       <table class="table">
-        {% for day in tutor.free.keys() %}
+        {% for day in free.keys() %}
         <tr>
           <th> {{ day|capitalize }}</th>
-          {% for time in tutor.free.get(day) %}
-          <td><a href="/booking/{{ tutor.id }}/{{ day }}/{{ time }}" {% if tutor.free.get(day).get(time) %}class="btn btn-success btn-sm btn-block "{% else %}class="btn btn-dark btn-sm disabled btn-block "{% endif %}>{{ time }}</a></td>
+          {% for time in free.get(day) %}
+          <td><a href="/booking/{{ tutor.id }}/{{ day }}/{{ time }}" {% if free.get(day).get(time) %}class="btn btn-success btn-sm btn-block "{% else %}class="btn btn-dark btn-sm disabled btn-block "{% endif %}>{{ time }}</a></td>
           {% endfor %}
         </tr>
         {% endfor %}
@@ -32,5 +32,4 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
 {% endblock %}
