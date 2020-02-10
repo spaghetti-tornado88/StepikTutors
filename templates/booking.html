@@ -4,7 +4,7 @@
   <main class="container mt-3">
     <div class="row mt-5">
       <div class="col-10 col-md-6 offset-1 offset-md-3 mb-3">
-          <form action="/booking_done" method="POST" class="card mb-3">
+          <form action="" method="POST" novalidate class="card mb-3">
               <div class="card-body text-center pt-5">
                   <img src="{{ tutor.picture }}" class="mb-3" width="195" alt="">
                   <h2 class="h5 card-title mt-2 mb-2">{{ tutor.name }}</h2>
@@ -12,7 +12,7 @@
                   <p class="my-1">{{ day|capitalize }}, {{ time }}</p>
               </div>
               <hr/>
-              {{ form.csrf_token }}
+              {{ form.hidden_tag() }}
               <div class="card-body mx-3">
                   <div class="row">
                       {{ form.day(class="form-control", type="hidden", value=day) }}

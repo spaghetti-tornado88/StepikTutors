@@ -1,7 +1,7 @@
 from datetime import datetime
 import json
 import random
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_migrate import Migrate
 #from flask_sqlalchemy import SQLAlchemy
 from models import *
@@ -54,17 +54,15 @@ def profile_page(tutor_id):
 @app.route('/booking/<int:tutor_id>/<day>/<time>', methods=['GET', 'POST'])
 def booking_page(tutor_id, day, time):
     form = BookingForm()
-    if form.validate_on_submit():
-        print('1')
-        return render_template('booking.html', tutor=db.session.query(Tutor).get(tutor_id),
+    if request.method=='POST' and form.validate():
+        return booking_done_page(form)
+    return render_template('booking.html', tutor=db.session.query(Tutor).get(tutor_id),
                                day=day, time=time, tutor_id=tutor_id, form=form)
-    print('2')
-    return redirect(url_for('booking_page', day=day, time=time, tutor_id=tutor_id))
 
 
 
 
-@app.route('/booking_done', methods=['POST'])
+@app.route('/booking_done', methods=['GET', 'POST'])
 def booking_done_page():
     form = request.form
     tutor = db.session.query(Tutor).get(int(request.form.get('tutor_id')))
