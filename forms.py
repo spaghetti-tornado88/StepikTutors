@@ -1,14 +1,20 @@
+import phonenumbers
 from flask_wtf import FlaskForm
-from wtforms import StringField, RadioField, SubmitField, IntegerField
+from wtforms import StringField, RadioField, SubmitField, IntegerField, ValidationError
 from wtforms.validators import DataRequired, Length
+
 
 class BookingForm(FlaskForm):
     tutor_id = IntegerField()
     day = StringField()
     time = StringField()
-    name = StringField('Вас зовут', [DataRequired(), Length(max=10)])
-    phone = StringField('Ваш телефон', [DataRequired(), Length(max=10)])
+    name = StringField('Вас зовут', [DataRequired(message='Введите свое имя')])
+    phone = StringField('Ваш телефон', [DataRequired(message='Введите свой номер телефона'), Length(max=16)])
     submit = SubmitField('Записаться')
+
+    def validate_phone(form, field):
+        if not phonenumbers.is_valid_number(phonenumbers.parse(field.data, 'RU')):
+            raise ValidationError('Введите номер телефона в правильном формате!')
 
 
 class RequestForm(FlaskForm):
