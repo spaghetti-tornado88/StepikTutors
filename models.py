@@ -2,8 +2,6 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///test.db"
-
 db = SQLAlchemy(app)
 
 
@@ -45,14 +43,14 @@ class Booking(db.Model):
 
 
 # db.create_all()
-#
+# DATABASE INITIATION SCRIPT
 #
 # import json
 # with open('data.json', 'r', encoding='utf-8') as file:
 #     data = file.read()
 #
 #
-# #DATABASE INITIATION SCRIPT
+#
 # data = json.loads(data)
 # tutors = data['tutors']
 # for tutor in tutors:
