@@ -21,19 +21,20 @@
                   </div>
                   {{ form.name.label(class="mb-1 mt-2") }}
                   {{ form.name(class="form-control") }}
+                  {% if form.name.errors %}
+                  <p style="color: red;">{{ form.name.errors[0] }}</p>
+                  {% else %}
+                  <p> </p>
+                  {% endif %}
                   {{ form.phone.label(class="mb-1 mt-2") }}
                   {{ form.phone(class="form-control") }}
+                  {% if form.phone.errors %}
+                  <p style="color: red;">{{ form.phone.errors[0] }}</p>
+                  {% endif %}
                   {{ form.submit(class="btn btn-primary btn-block mt-4") }}
               </div>
-              {% if form.errors %}
-              {{ form.errors }}
-              {% endif %}
           </form>
       </div>
     </div>
   </main>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
 {% endblock %}
